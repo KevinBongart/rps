@@ -1,4 +1,5 @@
 require_relative "strategy"
+require_relative "strategies/cheating_strategy"
 require_relative "strategies/favorite_strategy"
 require_relative "strategies/last_move_strategy"
 
@@ -7,7 +8,8 @@ class Game
 
   STRATEGIES = {
     "favorite" => FavoriteStrategy,
-    "last_move" => LastMoveStrategy
+    "last_move" => LastMoveStrategy,
+    "cheating" => CheatingStrategy
   }
 
   # List of elements (rock, paper, scissors) and the value they each win against
