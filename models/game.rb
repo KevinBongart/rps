@@ -3,6 +3,8 @@ require_relative "strategies/favorite_strategy"
 require_relative "strategies/last_move_strategy"
 
 class Game
+  attr_reader :strategy
+
   STRATEGIES = {
     "favorite" => FavoriteStrategy,
     "last_move" => LastMoveStrategy
@@ -15,7 +17,7 @@ class Game
     p: :r
   }
 
-  def initialize(strategy:)
+  def initialize(strategy: nil)
     @wins = @losses = @ties = 0
     @strategy = STRATEGIES.fetch(strategy, Strategy).new(ELEMENTS)
   end
@@ -26,14 +28,18 @@ class Game
     while true do
       puts "Type 'r', 'p' or 's'."
       print ">"
+      input = STDIN.gets.chomp
 
-      player_hand = STDIN.gets.chomp.to_sym
-      bot_hand = @strategy.bot_hand(player_hand)
-
-      puts "I chose '#{bot_hand}'. #{compare_hands(player_hand, bot_hand)}"
-      puts "you won #{@wins} times."
-      puts "you lost #{@losses} times."
-      puts "we tied #{@ties} times."
+      if input == "q"
+        print_results
+        puts "Bye."
+        break
+      elsif ELEMENTS.keys.include?(input.to_sym)
+        player_hand = input.to_sym
+        bot_hand = @strategy.bot_hand(player_hand)
+        puts "I chose '#{bot_hand}'. #{compare_hands(player_hand, bot_hand)}"
+        print_results
+      end
     end
   end
 
@@ -50,5 +56,11 @@ class Game
       @losses += 1
       "You lose!"
     end
+  end
+
+  def print_results
+    puts "You won #{@wins} times."
+    puts "You lost #{@losses} times."
+    puts "We tied #{@ties} times."
   end
 end
