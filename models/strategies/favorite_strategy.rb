@@ -1,3 +1,5 @@
+require_relative "../strategy"
+
 class FavoriteStrategy < Strategy
   NAME = :favorite
 

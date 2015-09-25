@@ -1,3 +1,5 @@
+require_relative "../strategy"
+
 class LastMoveStrategy < Strategy
   NAME = :last_move
 
